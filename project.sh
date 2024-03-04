@@ -43,6 +43,24 @@ CMD ["python3"]
 EOF
 fi
 
+if [[ ! -f docker-compose.yml ]]; then
+  cat<<EOF > docker-compose.yml
+services:
+  yt-dlp:
+    build: .
+    image: yt-dlp
+    user: $PROJECT_UID:$PROJECT_GID
+    working_dir: /home/$USER
+    volumes:
+      - .:/home/$USER
+      - .local:/.local
+      - .cache/pip:/.cache/pip
+    environment:
+      PATH:     "/.local/bin:\$PATH"
+EOF
+fi
+
+
 }
 
 "$1"
