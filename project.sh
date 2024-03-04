@@ -7,6 +7,42 @@ PROJECT_GID=$(id -g)
 
 start() {
 
+  if [[ ! -f Dockerfile ]]; then
+    touch Dockerfile && \
+    cat <<EOF> Dockerfile
+FROM debian:bookworm
+
+ENV LANG C.UTF-8
+
+# runtime dependencies
+RUN set -eux && \
+	apt-get update && apt-get install -y --no-install-recommends \
+      ffmpeg \
+      libbluetooth-dev \
+      tk-dev \
+      python3.11 \
+      python3-pip \
+      sudo \
+      uuid-dev && rm -rf /var/lib/apt/lists/*
+
+  RUN groupadd -g $PROJECT_GID -r $USER
+  RUN useradd -u $PROJECT_UID -g $PROJECT_GID --create-home -r $USER
+
+  #Change password
+  RUN echo "$USER:$USER" | chpasswd
+  #Make sudo passwordless
+  RUN echo "$USER ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/90-$USER
+  RUN usermod -aG sudo $USER
+  RUN usermod -aG plugdev $USER
+
+  USER $USER
+
+  WORKDIR /home/$USER
+
+CMD ["python3"]
+EOF
+fi
+
 }
 
 "$1"
