@@ -60,6 +60,9 @@ services:
 EOF
 fi
 
+docker compose run --rm yt-dlp pip3 install --break-system-packages --user yt-dlp
+docker compose run --rm yt-dlp python3 .local/bin/yt-dlp --version
+docker compose run --rm yt-dlp sh -c "printenv"
 
 }
 
