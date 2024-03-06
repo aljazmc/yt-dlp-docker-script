@@ -34,6 +34,8 @@ clean() {
 
 start() {
 
+  mkdir -p .local .cache/pip .cache/yt-dlp/youtube-nsig
+
   if [[ ! -f Dockerfile ]]; then
     touch Dockerfile && \
     cat <<EOF> Dockerfile
