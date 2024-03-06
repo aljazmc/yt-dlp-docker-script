@@ -5,6 +5,19 @@
 PROJECT_UID=$(id -u)
 PROJECT_GID=$(id -g)
 
+## Functions
+
+clean() {
+
+  docker compose down -v --rmi all --remove-orphans
+  rm -rf \
+    .local \
+    .cache \
+    docker-compose.yml \
+    Dockerfile
+    
+}
+
 start() {
 
   if [[ ! -f Dockerfile ]]; then
