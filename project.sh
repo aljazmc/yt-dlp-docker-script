@@ -1,5 +1,12 @@
 #!/bin/bash
 
+## Check if OS is Linux or quit
+
+if [[ "$OSTYPE" != "linux-gnu"* ]]; then
+    echo "Script runs only on GNU/Linux OS. Exiting..."
+    exit
+fi
+
 ## Variables
 
 PROJECT_UID=$(id -u)
