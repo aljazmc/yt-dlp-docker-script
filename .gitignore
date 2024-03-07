@@ -1,0 +1,5 @@
+.cache/
+.local/
+
+Dockerfile
+docker-compose.yml
