@@ -84,7 +84,7 @@ services:
       - .local:/.local
       - .cache/pip:/.cache/pip
     environment:
-      PATH:     "/.local/bin:\$PATH"
+      PATH:     "/.local/bin:/home/$USER/.local/bin:\$PATH"
 EOF
 fi
 
