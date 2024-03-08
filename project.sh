@@ -77,7 +77,6 @@ if [[ ! -f docker-compose.yml ]]; then
 services:
   yt-dlp:
     build: .
-    image: yt-dlp
     user: $PROJECT_UID:$PROJECT_GID
     working_dir: /home/$USER
     volumes:
