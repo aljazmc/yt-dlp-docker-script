@@ -14,7 +14,7 @@ A script to run yt-dlp in a Docker container.
 ### Start
 1. clone the project directory,
 2. move to the project folder and
-3. run `./project.sh start`.
+3. run `./project.sh start` to install yt-dlp.
 
 ### Download
 ```
