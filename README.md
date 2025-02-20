@@ -11,12 +11,12 @@ A script to run yt-dlp in a Docker container.
 
 ## > Instructions
 
-### Start
+### Installation
 1. clone the project directory,
 2. move to the project folder and
 3. run `./project.sh start` to install yt-dlp.
 
-### Download
+### Download examples
 ```
 $ docker compose run yt-dlp python3 .local/bin/yt-dlp --print filename -o "test video.%(ext)s" BaW_jenozKc
 test video.webm    # Literal name with correct extension
@@ -56,5 +56,5 @@ $ docker compose run yt-dlp python3 .local/bin/yt-dlp -P "C:/MyVideos" -o "%(upl
 $ docker compose run yt-dlp python3 .local/bin/yt-dlp -o - BaW_jenozKc
 ```
 
-### Clean
+### Cleanup
 1. Clean up with `./project.sh clean`.
