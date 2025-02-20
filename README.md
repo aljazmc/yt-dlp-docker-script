@@ -2,30 +2,28 @@
 
 # yt-dlp-docker-script
 
-A script to run yt-dlp in a Docker container.
-&nbsp;
-
-&nbsp;
+A script to run [yt-dlp](https://github.com/yt-dlp/yt-dlp) in a Docker container.
 
 ## > Prerequisites
 
 * Linux system with bash shell
 * Docker (with docker compose plugin) installed and running
-&nbsp;
 
-&nbsp;
+## > Installation
 
-## > Instructions
+```
+## clone the project directory,
+git clone https://github.com/aljazmc/yt-dlp-docker-script
 
-### Installation
-1. clone the project directory,
-2. move to the project folder and
-3. run `./project.sh start` to install yt-dlp.
-&nbsp;
+## move to the project folder
+cd yt-dlp-docker-script
 
-&nbsp;
+## run `./project.sh start` to install yt-dlp.
+./project.sh start
+```
 
-### Download examples
+## > Download examples
+
 ```
 $ docker compose run yt-dlp python3 .local/bin/yt-dlp --print filename -o "test video.%(ext)s" BaW_jenozKc
 test video.webm    # Literal name with correct extension
@@ -64,12 +62,11 @@ $ docker compose run yt-dlp python3 .local/bin/yt-dlp -P "C:/MyVideos" -o "%(upl
 # Stream the video being downloaded to stdout
 $ docker compose run yt-dlp python3 .local/bin/yt-dlp -o - BaW_jenozKc
 ```
-&nbsp;
 
-&nbsp;
+## > Cleanup
 
-### Cleanup
-1. Clean up with `./project.sh clean`.
-&nbsp;
-
-&nbsp;
+```
+## after use you might want to remove docker images 
+## and cached files with:
+./project.sh clean
+```
