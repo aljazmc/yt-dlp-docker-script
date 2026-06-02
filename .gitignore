@@ -1,5 +1,5 @@
-.cache/
-.local/
-
-Dockerfile
-docker-compose.yml
+**
+!.gitignore
+!LICENSE
+!README.md
+!project.sh

@@ -16,50 +16,48 @@ PROJECT_GID=$(id -g)
 
 clean() {
 
-  docker compose down -v --rmi all --remove-orphans
-  rm -rf \
-    .local \
-    .cache \
-    docker-compose.yml \
-    Dockerfile
-    
+    docker compose down -v --rmi all --remove-orphans
+    find . -mindepth 1 -maxdepth 1 \
+    | sed "/.git/d;/.gitignore/d;/LICENSE/d;/README.md/d;/cookies.txt/d;/project.sh/d" \
+    | xargs -I {} rm -rf {}
+
 }
 
 start() {
 
-  mkdir -p .local .cache/pip .cache/yt-dlp/youtube-nsig
-
-  if [[ ! -f Dockerfile ]]; then
-    touch Dockerfile && \
+    mkdir -p .local .cache/pip .cache/yt-dlp/youtube-nsig
+  
+    if [[ ! -f Dockerfile ]]; then
+    touch Dockerfile
     cat <<EOF> Dockerfile
-FROM debian:bookworm
+FROM debian:latest
 
 ENV LANG C.UTF-8
 
 # runtime dependencies
 RUN set -eux && \
-	apt-get update && apt-get install -y --no-install-recommends \
-      ffmpeg \
-      libbluetooth-dev \
-      tk-dev \
-      python3.11 \
-      python3-pip \
-      sudo \
-      uuid-dev && rm -rf /var/lib/apt/lists/*
+    apt-get update && apt-get install -y --no-install-recommends \
+    ffmpeg \
+    libbluetooth-dev \
+    tk-dev \
+    python3.13 \
+    python3-pip \
+    sudo \
+    uuid-dev && rm -rf /var/lib/apt/lists/*
 
-  RUN groupadd -g $PROJECT_GID -r $USER
-  RUN useradd -u $PROJECT_UID -g $PROJECT_GID --create-home -r $USER
+RUN groupadd -g $PROJECT_GID -r $USER
+RUN useradd -u $PROJECT_UID -g $PROJECT_GID --create-home -r $USER
 
-  #Change password
-  RUN echo "$USER:$USER" | chpasswd
-  #Make sudo passwordless
-  RUN echo "$USER ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/90-$USER
-  RUN usermod -aG sudo $USER
-  RUN usermod -aG plugdev $USER
+#Change password
+RUN echo "$USER:$USER" | chpasswd
+#Make sudo passwordless
+RUN echo "$USER ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/90-$USER
+RUN usermod -aG sudo $USER
+RUN usermod -aG plugdev $USER
 
-  USER $USER
+USER $USER
 
-  WORKDIR /home/$USER
+WORKDIR /home/$USER
 
 CMD ["python3"]
 EOF
@@ -68,21 +66,21 @@ fi
 if [[ ! -f docker-compose.yml ]]; then
   cat<<EOF > docker-compose.yml
 services:
-  yt-dlp:
-    build: .
-    working_dir: /home/$USER
-    volumes:
-      - .:/home/$USER
-      - .local:/.local
-      - .cache/pip:/.cache/pip
-    environment:
-      PATH:     "/.local/bin:/home/$USER/.local/bin:\$PATH"
+    yt-dlp:
+        build: .
+        working_dir: /home/$USER
+        volumes:
+            - .:/home/$USER
+            - .local:/.local
+            - .cache/pip:/.cache/pip
+        environment:
+            PATH:     "/.local/bin:/home/$USER/.local/bin:\$PATH"
 EOF
 
-  if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-    echo "Adding user configuration line to docker-compose.yml for GNU/Linux users."
-    sed -i "3 a \ \ \ \ user\:\ $PROJECT_UID\:$PROJECT_GID" docker-compose.yml
-  fi
+    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        echo "Adding user configuration line to docker-compose.yml for GNU/Linux users."
+        sed -i "3 a \ \ \ \ \ \ \ \ user\:\ $PROJECT_UID\:$PROJECT_GID" docker-compose.yml
+    fi
 
 fi
 
