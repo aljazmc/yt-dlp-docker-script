@@ -25,9 +25,9 @@ clean() {
 
 start() {
 
-    mkdir -p .local .cache/pip .cache/yt-dlp/youtube-nsig
+mkdir -p .local .cache/pip .cache/yt-dlp/youtube-nsig
   
-    if [[ ! -f Dockerfile ]]; then
+if [[ ! -f Dockerfile ]]; then
     touch Dockerfile
     cat <<EOF> Dockerfile
 FROM debian:latest
