@@ -79,7 +79,7 @@ EOF
 
     if [[ "$OSTYPE" == "linux-gnu"* ]]; then
         echo "Adding user configuration line to docker-compose.yml for GNU/Linux users."
-        sed -i "3 a \ \ \ \ \ \ \ \ user\:\ $PROJECT_UID\:$PROJECT_GID" docker-compose.yml
+        sed -i "/working_dir\:/{s@^\( \+\)@\1user\: $PROJECT_UID\:$PROJECT_GID\n\1@}" docker-compose.yml
     fi
 
 fi
