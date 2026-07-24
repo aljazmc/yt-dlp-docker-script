@@ -17,9 +17,17 @@ PROJECT_GID=$(id -g)
 clean() {
 
     docker compose down -v --rmi all --remove-orphans
-    find . -mindepth 1 -maxdepth 1 \
-    | sed "/.git/d;/.gitignore/d;/LICENSE/d;/README.md/d;/cookies.txt/d;/project.sh/d" \
-    | xargs -I {} rm -rf {}
+    find . -mindepth 1 -maxdepth 1 -type f \
+    | sed "
+        /.git/d;
+	/.gitignore/d;
+	/LICENSE/d;
+	/README.md/d;
+	/cookies.txt/d;
+	/command.sh/d;
+	/project.sh/d" \
+    | xargs -I {} rm -rf {} \
+    | rm -rf .cache .local
 
 }
 
