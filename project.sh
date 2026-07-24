@@ -48,7 +48,7 @@ RUN set -eux && \
     ffmpeg \
     libbluetooth-dev \
     tk-dev \
-    python3.13 \
+    python3 \
     python3-pip \
     sudo \
     uuid-dev && rm -rf /var/lib/apt/lists/*
