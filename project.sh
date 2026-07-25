@@ -27,7 +27,8 @@ clean() {
 	/command.sh/d;
 	/project.sh/d" \
     | xargs -I {} rm -rf {} \
-    | rm -rf .cache .local
+    | rm -rf .cache .local && \
+    find . -type d -empty -delete
 
 }
 
