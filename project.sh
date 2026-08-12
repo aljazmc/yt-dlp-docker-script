@@ -20,12 +20,12 @@ clean() {
     find . -mindepth 1 -maxdepth 1 -type f \
     | sed "
         /.git/d;
-	/.gitignore/d;
-	/LICENSE/d;
-	/README.md/d;
-	/cookies.txt/d;
-	/command.sh/d;
-	/project.sh/d" \
+        /.gitignore/d;
+        /LICENSE/d;
+        /README.md/d;
+        /cookies.txt/d;
+        /command.sh/d;
+        /project.sh/d" \
     | xargs -I {} rm -rf {} \
     | rm -rf .cache .local && \
     find . -type d -empty -delete
