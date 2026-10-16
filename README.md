@@ -2,40 +2,97 @@
 
 # yt-dlp-docker-script
 
-A script to run [yt-dlp](https://github.com/yt-dlp/yt-dlp) in a Docker container.
+Run [yt-dlp](https://github.com/yt-dlp/yt-dlp) inside a Docker container without installing Python, pip or ffmpeg on your host.
 
-## > Prerequisites
+A single `project.sh` script generates a `Dockerfile` and `docker-compose.yml`, builds a Debian image with `python3` and `ffmpeg`, and installs yt-dlp into the project folder. The container runs as your own user (same UID/GID), so downloaded files are owned by you, not by root.
 
-* Linux system with bash shell
-* Docker (with docker compose plugin) installed and running
+## Prerequisites
 
-## > Installation
+* Linux with a bash shell
+* Docker with the [Compose plugin](https://docs.docker.com/compose/install/linux/) (`docker compose`), installed and running
 
-1. clone the project directory,
-```
+## Installation
+
+```bash
 git clone https://github.com/aljazmc/yt-dlp-docker-script
-```
-
-2. move to the project folder
-```
 cd yt-dlp-docker-script
-```
-
-3. run `./project.sh start` to install yt-dlp.
-```
 ./project.sh start
 ```
 
-## > Download example
+`./project.sh start` will:
 
-- Download all playlists of YouTube channel/user keeping each playlist in separate directory:
-```
-$ docker compose run yt-dlp python3 .local/bin/yt-dlp --sleep-requests 5 --sleep-interval 20 --max-sleep-interval 30 -o "%(uploader)s/%(playlist)s/%(playlist_index)s - %(title)s.%(ext)s" "https://www.youtube.com/user/TheLinuxFoundation/playlists"
+1. create the `.local` and `.cache` directories,
+2. generate `Dockerfile` and `docker-compose.yml` (only if they don't already exist),
+3. build the image and install yt-dlp with pip into `.local`,
+4. print the installed yt-dlp version to confirm it works.
+
+## Usage
+
+Run yt-dlp through Docker Compose from the project folder:
+
+```bash
+docker compose run --rm yt-dlp python3 .local/bin/yt-dlp [OPTIONS] URL
 ```
 
-## > Cleanup
+The project folder is mounted as the container's working directory, so **downloads are saved into the project folder** on your host.
 
-- after use you might want to remove docker images and cached files with:
+### Examples
+
+Download a single video:
+
+```bash
+docker compose run --rm yt-dlp python3 .local/bin/yt-dlp "https://www.youtube.com/watch?v=VIDEO_ID"
 ```
+
+Extract audio only as MP3 (ffmpeg is included in the image):
+
+```bash
+docker compose run --rm yt-dlp python3 .local/bin/yt-dlp -x --audio-format mp3 "https://www.youtube.com/watch?v=VIDEO_ID"
+```
+
+Download all playlists of a YouTube channel, keeping each playlist in its own directory and pausing between requests to avoid rate limiting:
+
+```bash
+docker compose run --rm yt-dlp python3 .local/bin/yt-dlp \
+    --sleep-requests 5 --sleep-interval 20 --max-sleep-interval 30 \
+    -o "%(uploader)s/%(playlist)s/%(playlist_index)s - %(title)s.%(ext)s" \
+    "https://www.youtube.com/user/TheLinuxFoundation/playlists"
+```
+
+### Using cookies
+
+For content that requires being signed in, export your browser cookies in Netscape format to `cookies.txt` in the project folder and pass it to yt-dlp:
+
+```bash
+docker compose run --rm yt-dlp python3 .local/bin/yt-dlp --cookies cookies.txt "URL"
+```
+
+`cookies.txt` is ignored by git and kept by `./project.sh clean`. Keep it private, since it gives access to your account.
+
+### Tip: shell alias
+
+To save typing, add an alias to your `~/.bashrc` (adjust the path):
+
+```bash
+alias yt-dlp='docker compose -f ~/yt-dlp-docker-script/docker-compose.yml run --rm yt-dlp python3 .local/bin/yt-dlp'
+```
+
+Files are still saved in the project folder, whatever directory you run the alias from.
+
+## Updating yt-dlp
+
+Sites change often, so keep yt-dlp up to date:
+
+```bash
+docker compose run --rm yt-dlp pip3 install --break-system-packages --user -U yt-dlp
+```
+
+## Cleanup
+
+Remove the Docker containers, images and volumes, the generated files and the cached/installed packages:
+
+```bash
 ./project.sh clean
 ```
+
+This keeps `cookies.txt`, `command.sh` and the repository files, but **it also deletes any other files in the top level of the project folder**. Move your downloads somewhere else before running it.
