@@ -2,9 +2,9 @@
 
 ## Check if docker compose is installed or quit
 
-if [[ ! -x "$(command -v compose version)" ]]; then
+if ! docker compose version > /dev/null 2>&1; then
     echo "Compose plugin is not installed. Exiting..."
-    exit
+    exit 1
 fi
 
 ## Variables
