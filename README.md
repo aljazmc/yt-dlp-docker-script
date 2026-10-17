@@ -69,16 +69,6 @@ docker compose run --rm yt-dlp python3 .local/bin/yt-dlp --cookies cookies.txt "
 
 `cookies.txt` is ignored by git and kept by `./project.sh clean`. Keep it private, since it gives access to your account.
 
-### Tip: shell alias
-
-To save typing, add an alias to your `~/.bashrc` (adjust the path):
-
-```bash
-alias yt-dlp='docker compose -f ~/yt-dlp-docker-script/docker-compose.yml run --rm yt-dlp python3 .local/bin/yt-dlp'
-```
-
-Files are still saved in the project folder, whatever directory you run the alias from.
-
 ## Updating yt-dlp
 
 Sites change often, so keep yt-dlp up to date:
