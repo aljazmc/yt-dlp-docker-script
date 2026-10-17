@@ -59,16 +59,6 @@ docker compose run --rm yt-dlp python3 .local/bin/yt-dlp \
     "https://www.youtube.com/user/TheLinuxFoundation/playlists"
 ```
 
-### Using cookies
-
-For content that requires being signed in, export your browser cookies in Netscape format to `cookies.txt` in the project folder and pass it to yt-dlp:
-
-```bash
-docker compose run --rm yt-dlp python3 .local/bin/yt-dlp --cookies cookies.txt "URL"
-```
-
-`cookies.txt` is ignored by git and kept by `./project.sh clean`. Keep it private, since it gives access to your account.
-
 ## Updating yt-dlp
 
 Sites change often, so keep yt-dlp up to date:
