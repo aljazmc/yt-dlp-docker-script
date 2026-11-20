@@ -99,4 +99,10 @@ docker compose run --rm yt-dlp sh -c "printenv"
 
 }
 
+update() {
+
+docker compose run --rm yt-dlp pip3 install --break-system-packages --user -U yt-dlp
+	
+}
+
 "$1"

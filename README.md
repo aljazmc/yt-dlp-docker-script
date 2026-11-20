@@ -64,7 +64,7 @@ docker compose run --rm yt-dlp python3 .local/bin/yt-dlp \
 Sites change often, so keep yt-dlp up to date:
 
 ```bash
-docker compose run --rm yt-dlp pip3 install --break-system-packages --user -U yt-dlp
+./project.sh update
 ```
 
 ## Cleanup
