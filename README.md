@@ -2,9 +2,9 @@
 
 # yt-dlp-docker-script
 
-Run [yt-dlp](https://github.com/yt-dlp/yt-dlp) inside a Docker container without installing Python, pip or ffmpeg on your host.
+The easiest way to run [yt-dlp](https://github.com/yt-dlp/yt-dlp) in Docker.
 
-A single `project.sh` script generates a `Dockerfile` and `docker-compose.yml`, builds a Debian image with `python3` and `ffmpeg`, and installs yt-dlp into the project folder. The container runs as your own user (same UID/GID), so downloaded files are owned by you, not by root.
+A single `project.sh` script generates a `Dockerfile` and `docker-compose.yml`, builds a Debian image with `python3` and `ffmpeg`, and installs yt-dlp into the project folder. The container runs as your own user (same UID/GID), so downloaded files are owned by you.
 
 ## Prerequisites
 
