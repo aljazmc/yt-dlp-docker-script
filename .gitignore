@@ -5,3 +5,6 @@
 !project.sh
 !tests/
 !tests/*.sh
+!.github/
+!.github/workflows/
+!.github/workflows/*.yml

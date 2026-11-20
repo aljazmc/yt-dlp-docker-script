@@ -26,9 +26,9 @@ clean() {
         /cookies.txt/d;
         /command.sh/d;
         /project.sh/d" \
-    | xargs -I {} rm -rf {} \
-    | rm -rf .cache .local && \
-    find . -type d -empty -delete
+    | xargs -I {} rm -rf {}
+    rm -rf .cache .local
+    find . -mindepth 1 -type d -empty ! -path ./.git ! -path './.git/*' -delete
 
 }
 
