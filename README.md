@@ -1,6 +1,6 @@
 # yt-dlp-docker-script
 
-[![lint](https://github.com/aljazmc/yt-dlp-docker-script/actions/workflows/lint.yml/badge.svg)](https://github.com/aljazmc/yt-dlp-docker-script/actions/workflows/lint.yml)
+[![CI](https://github.com/aljazmc/yt-dlp-docker-script/actions/workflows/ci.yml/badge.svg)](https://github.com/aljazmc/yt-dlp-docker-script/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![yt-dlp](https://img.shields.io/badge/yt--dlp-latest-ff0000?logo=youtube&logoColor=white)](https://github.com/yt-dlp/yt-dlp)
 [![Docker](https://img.shields.io/badge/Docker-Compose-2496ed?logo=docker&logoColor=white)](https://docs.docker.com/compose/)
